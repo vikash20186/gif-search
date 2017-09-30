@@ -40,17 +40,19 @@ export class SearchListView {
 	}
 
 	onScroll(event){
-		if (this.lastScrollTop < document.documentElement.scrollTop){
+		var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		if (this.lastScrollTop < scrollTop){
 			requestAnimationFrame(()=>{
 				this.onScrollDown(event);
 			})
 		}
-		this.lastScrollTop = document.documentElement.scrollTop;
+		this.lastScrollTop = scrollTop;
 	}
 
 	onScrollDown(event){
+		var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 		if (this.gifService.canFetchMore()){
-			var bottomMargin = document.documentElement.scrollHeight - (document.documentElement.scrollTop + this.screenHeight);
+			var bottomMargin = document.documentElement.scrollHeight - (scrollTop + this.screenHeight);
 			if (bottomMargin < 250){
 				this.gifService.getNext().then(obj => {
 					this.updateView(obj.response.data);
