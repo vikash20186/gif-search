@@ -347,20 +347,22 @@ var SearchListView = exports.SearchListView = function () {
 		value: function onScroll(event) {
 			var _this2 = this;
 
-			if (this.lastScrollTop < document.documentElement.scrollTop) {
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			if (this.lastScrollTop < scrollTop) {
 				requestAnimationFrame(function () {
 					_this2.onScrollDown(event);
 				});
 			}
-			this.lastScrollTop = document.documentElement.scrollTop;
+			this.lastScrollTop = scrollTop;
 		}
 	}, {
 		key: "onScrollDown",
 		value: function onScrollDown(event) {
 			var _this3 = this;
 
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 			if (this.gifService.canFetchMore()) {
-				var bottomMargin = document.documentElement.scrollHeight - (document.documentElement.scrollTop + this.screenHeight);
+				var bottomMargin = document.documentElement.scrollHeight - (scrollTop + this.screenHeight);
 				if (bottomMargin < 250) {
 					this.gifService.getNext().then(function (obj) {
 						_this3.updateView(obj.response.data);
