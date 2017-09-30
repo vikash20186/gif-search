@@ -61,7 +61,7 @@ header h1{
 }
 
 .search-container{
-    width: 500px;
+    max-width: 800px;
     margin: 10px auto
 }
 

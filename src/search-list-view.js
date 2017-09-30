@@ -8,10 +8,22 @@ export class SearchListView {
 	}
 
 	init(){
-		this.elems.searchBtnElem.addEventListener("click", this.onSearchClick.bind(this));
-		document.addEventListener("scroll", this.onScroll.bind(this));
+		this.onSearchClickBind = this.onSearchClick.bind(this);
+		this.onSearchTextKeyDownBind = this.onSearchTextKeyDown.bind(this);
+		this.onScrollBind = this.onScroll.bind(this);
+
+		this.elems.searchBtnElem.addEventListener("click", this.onSearchClickBind);
+		this.elems.searchTextElem.addEventListener("keydown", this.onSearchTextKeyDownBind);
+		document.addEventListener("scroll", this.onScrollBind);
+		
 		this.lastScrollTop = 0;
 		this.screenHeight = screen.height;
+	}
+
+	onSearchTextKeyDown(event){
+		if (event.keyCode === 13){
+			this.onSearchClick(event);
+		}
 	}
 
 	onSearchClick(event){
@@ -23,28 +35,27 @@ export class SearchListView {
 		this.gifService.getGifSearchResults(searchText).then(response => {
 			this.updateView(response.data);
 		});
-		clearView();
+		this.clearView();
 		event.preventDefault();
 	}
 
 	onScroll(event){
-		if (this.lastScrollTop < document.body.scrollTop){
+		if (this.lastScrollTop < document.documentElement.scrollTop){
 			requestAnimationFrame(()=>{
 				this.onScrollDown(event);
 			})
 		}
-		this.lastScrollTop = document.body.scrollTop;
+		this.lastScrollTop = document.documentElement.scrollTop;
 	}
 
 	onScrollDown(event){
-		if (this.gifService.isRequestInProgress){
-			return false;
-		}
-		var bottomMargin = document.body.scrollHeight - (document.body.scrollTop + this.screenHeight);
-		if (bottomMargin < 250){
-			this.gifService.getNext().then(obj => {
-				this.updateView(obj.response.data);
-			});
+		if (this.gifService.canFetchMore()){
+			var bottomMargin = document.documentElement.scrollHeight - (document.documentElement.scrollTop + this.screenHeight);
+			if (bottomMargin < 250){
+				this.gifService.getNext().then(obj => {
+					this.updateView(obj.response.data);
+				});
+			}
 		}
 	}
 
@@ -57,9 +68,10 @@ export class SearchListView {
 		this.parentElem.appendChild(documentFragmentElem);
 	}
 
-	getElem(gif){
+	getElem(gif, index){
 		var divElem = document.createElement("div");
 		divElem.classList.add("item");
+		divElem.setAttribute("data-index", index);
 		var imgElem = document.createElement("img");
 		imgElem.src = gif.preview.url;
 		imgElem.style.width = gif.preview.width +"px";
@@ -67,15 +79,27 @@ export class SearchListView {
 		var divInfoElem = document.createElement("div");
 		divElem.appendChild(imgElem);
 		divElem.appendChild(divInfoElem);
+		divInfoElem.innerHTML = index;
 		return divElem;
 	}
 
 	clearView(){
 		var childNodes = this.parentElem.childNodes;
 		if (childNodes){
-			for (let counter = childNodes.length; counter>=0; counter--){
+			for (let counter = childNodes.length-1; counter>=0; counter--){
 				this.parentElem.removeChild(childNodes[counter]);
 			}
 		}
+	}
+
+	clearEvents(){
+		this.elems.searchBtnElem.removeEventListener("click", this.onSearchClickBind);
+		this.elems.searchTextElem.removeEventListener("keydown", this.onSearchTextKeyDownBind);
+		document.removeEventListener("scroll", this.onScrollBind);
+	}
+
+	destroyView(){
+		this.clearView();
+		this.clearEvents();
 	}
 }

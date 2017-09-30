@@ -34,6 +34,11 @@ export class GifService {
     })
   }
 
+  canFetchMore(){
+    return (this.requestInfo.response.data.length < this.requestInfo.response.pagination.total_count)
+      && !this.isRequestInProgress;
+  }
+
   getNext(){
     var offset = this.requestInfo.response.data.length;
     return this.getResults(this.requestInfo.searchText, offset).then(response => {
@@ -53,7 +58,7 @@ export class GifService {
       var smallerSizes = versionNames.filter(versionName => versions[versionName].width <= 250 && versions[versionName].url)
                           .map(versionName => versions[versionName]);
       smallerSizes = smallerSizes.sort((a,b) => b.width - a.width);
-      console.log(smallerSizes[0]);
+      //console.log(smallerSizes[0]);
       return Object.assign({
         preview : smallerSizes[0],
       }, gif);
