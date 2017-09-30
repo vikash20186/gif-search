@@ -27,6 +27,10 @@
             { 
                 from: './index.html', 
                 to: 'index.html' 
+            },
+            { 
+                from: './css/style.css', 
+                to: 'style.css' 
             }
         ], {
             copyUnmodified: true

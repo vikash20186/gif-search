@@ -2,12 +2,33 @@
 <html>
 
   <head>
-    <link rel="stylesheet" href="app11.css">
-    <script src="app.bundle.js"></script>
+  	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/template" id="item-template">
+    	<img>
+    	<div class="info"></div>
+    </script>
   </head>
 
   <body>
-    <h1>Hello Plunker!</h1>
+  	<header>
+  		<h1>Gif Search</h1>
+  	</header>
+    <section class="main-container">
+    	<div class="search-container">
+    		<form class="form-inline">
+			  <div class="form-group col-xs-10">
+			    <input id="search-text" type="text" class="form-control" placeholder="Enter Search Text">
+			  </div>
+			  <button id="search-button" type="button" class="btn btn-default col-xs-2">Search</button>
+			</form>
+			<div class="clearfix"></div>
+    	</div>
+    	<div id="search-list" class="search-list masonry">
+    		
+    	</div>
+    </section>
+    <script src="app.bundle.js"></script>
   </body>
 
 </html>
