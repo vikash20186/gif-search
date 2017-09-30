@@ -79,7 +79,7 @@ export class SearchListView {
 		var divInfoElem = document.createElement("div");
 		divElem.appendChild(imgElem);
 		divElem.appendChild(divInfoElem);
-		divInfoElem.innerHTML = index;
+		//divInfoElem.innerHTML = index;
 		return divElem;
 	}
 
