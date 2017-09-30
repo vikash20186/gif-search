@@ -1,0 +1,35 @@
+	<!DOCTYPE html>
+<html>
+
+  <head>
+  	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/template" id="item-template">
+    	<img>
+    	<div class="info"></div>
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+  	<header>
+  		<h1>STASH GIFs</h1>
+  	</header>
+    <section class="main-container">
+    	<div class="search-container">
+    		<form class="form-inline">
+			  <div class="form-group col-sm-10 col-xs-9">
+			    <input id="search-text" type="text" class="form-control" placeholder="Enter Search Text">
+			  </div>
+			  <button id="search-button" type="button" class="btn btn-default col-sm-2 col-xs-2">Search</button>
+			</form>
+			<div class="clearfix"></div>
+    	</div>
+    	<div id="search-list" class="search-list masonry">
+    		
+    	</div>
+    </section>
+    <script src="app.bundle.js"></script>
+  </body>
+
+</html>
