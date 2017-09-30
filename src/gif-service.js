@@ -35,11 +35,23 @@ export class GifService {
   }
 
   canFetchMore(){
+    if (!this.requestInfo){
+      return false;
+    }
     return (this.requestInfo.response.data.length < this.requestInfo.response.pagination.total_count)
       && !this.isRequestInProgress;
   }
 
   getNext(){
+    
+    if (!this.requestInfo){
+      throw Error("getData is not called yet");
+    }
+
+    if (!this.canFetchMore()){
+      throw Error("no more data to be feteched");
+    }
+
     var offset = this.requestInfo.response.data.length;
     return this.getResults(this.requestInfo.searchText, offset).then(response => {
       this.requestInfo.response.data = this.requestInfo.response.data.concat(response.data);

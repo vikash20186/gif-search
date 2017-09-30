@@ -7,6 +7,6 @@ export class AJAXRequestService{
         return response.json();
       }
       throw new TypeError("Oops, we haven't got JSON!");
-    }).catch(err => console.log(err));
+    })
   }
 }

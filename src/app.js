@@ -3,9 +3,8 @@ import {AppConfig} from './app-config.js';
 import {AJAXRequestService} from './http-service.js';
 import {SearchListView} from './search-list-view.js';
 
-var appConfigObj = new AppConfig();
 var ajaxRequestService = new AJAXRequestService();
-var gifService = new GifService(appConfigObj, ajaxRequestService);
+var gifService = new GifService(AppConfig, ajaxRequestService);
 
 function afterDomLoadedEvent(){
 	
